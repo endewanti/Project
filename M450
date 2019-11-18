@@ -1,0 +1,38 @@
+clc;
+close all;
+A= [ 4 3 5; 1 6 3; 5 7 3] % Write the coefficient matrix, A. where  the system: AX=B.
+%A=LU so LUX=B. Let UX=Y, then LY=B. Find Y first and then find X by Gauss
+%elimination.
+Y=[0;0;0];%UX=Y
+B = [3; 4; 7] % Write the constants matrix, B
+[L,U]=lu(A);
+P= [ L B ]; % constructing the new augmented matrix P 
+[ row col ] = size( P); % Calculating the size of augmented matrix, P   
+s=0;t=0;
+Y(1,1)=P(row,col);
+for i=2:1:row %Finding the final solutions
+    for j=1:1:i-1
+        s=s+P(col-i,j)*Y(j,1);
+        Y(i,1)=P(col-i,col);
+        Y(i,1)= Y(i,1)- s;        
+    end
+    s=0;
+end
+  disp('The required solution Y is:')
+  fprintf('%5.5f \n',Y(:,1));
+ 
+Q=[ U Y(:,1)]; % constructing the new augmented matrix Q
+for i=1:row
+ a=U(i,i);  
+ Q(i,:)= Q(i,:)/a;
+end
+ s=0;
+for i=row:-1:2 %Finding the final solutions
+    for j=i+1:col
+        s=s+Q(i-1,j-1)* Q(j-1,col);
+        Q(i-1,col)= Q(i-1,col)- s; 
+        s=0;
+    end
+end
+ disp('The required solution X is:')
+ fprintf('%5.5f \n', Q(:,col)); 
