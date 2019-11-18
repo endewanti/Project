@@ -34,5 +34,6 @@ for i=row:-1:2 %Finding the final solutions
         s=0;
     end
 end
+%This is a test
  disp('The required solution X is:')
  fprintf('%5.5f \n', Q(:,col)); 
